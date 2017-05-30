@@ -994,8 +994,15 @@ class BootstrapForm
      */
     protected function getAddonBefore(array $options = [])
     {
+        $openingCode = '<div class="input-group">';
+
         if (array_key_exists('addon-before', $options)) {
-            return '<span class="input-group-addon">' . e($options['addon-before']) . '</span>';
+            return $openingCode . '<span class="input-group-addon">' . e($options['addon-before']) . '</span>';
+        }
+
+        // Opens input group div if there is an "after" addon.
+        if (array_key_exists('addon-after', $options)) {
+            return $openingCode;
         }
 
         return '';
@@ -1009,8 +1016,15 @@ class BootstrapForm
      */
     protected function getAddonAfter(array $options = [])
     {
+        $closingCode = '</div>';
+
         if (array_key_exists('addon-after', $options)) {
-            return '<span class="input-group-addon">' . e($options['addon-after']) . '</span>';
+            return '<span class="input-group-addon">' . e($options['addon-after']) . '</span>' . $closingCode;
+        }
+
+        // Closes input group div if there is a "before" addon.
+        if (array_key_exists('addon-before', $options)) {
+            return $closingCode;
         }
 
         return '';
