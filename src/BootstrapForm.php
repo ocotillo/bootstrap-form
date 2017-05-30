@@ -615,7 +615,7 @@ class BootstrapForm
         $inputElement = $type === 'password' ? $this->form->password($name, $options) : $this->form->{$type}($name, $value, $options);
 
         $wrapperOptions = $this->isHorizontal() ? ['class' => $this->getRightColumnClass()] : [];
-        $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>' . $inputElement . $this->getFieldError($name) . $this->getHelpText($name, $options) . '</div>';
+        $wrapperElement = '<div' . $this->html->attributes($wrapperOptions) . '>' . $this->getAddonBefore($options) . $inputElement . $this->getFieldError($name) . $this->getHelpText($name, $options) . $this->getAddonAfter($options) . '</div>';
 
         return $this->getFormGroup($name, $label, $wrapperElement);
     }
@@ -981,6 +981,36 @@ class BootstrapForm
     {
         if (array_key_exists('help_text', $options)) {
             return '<span class="help-block">' . e($options['help_text']) . '</span>';
+        }
+
+        return '';
+    }
+
+    /**
+     * Get the initial add-on text for the given field.
+     *
+     * @param  array   $options
+     * @return string
+     */
+    protected function getAddonBefore(array $options = [])
+    {
+        if (array_key_exists('addon-before', $options)) {
+            return '<span class="input-group-addon">' . e($options['addon-before']) . '</span>';
+        }
+
+        return '';
+    }
+
+    /**
+     * Get the add-on text for after the given field.
+     *
+     * @param  array   $options
+     * @return string
+     */
+    protected function getAddonAfter(array $options = [])
+    {
+        if (array_key_exists('addon-after', $options)) {
+            return '<span class="input-group-addon">' . e($options['addon-after']) . '</span>';
         }
 
         return '';
